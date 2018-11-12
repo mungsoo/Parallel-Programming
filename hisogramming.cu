@@ -62,6 +62,14 @@ __global__ void histogram(unsigned char *input, int *hist, int len)
   if(tid < HISTOGRAM_LENGTH)
     atomicAdd(&(hist[tid]), sHist[tid]);
 
+  // Why this unoptimized approach even better than the approach above in the dataset?
+  //  while(index < len)
+  //{
+  //  atomicAdd(&(hist[input[index]]), 1);
+  //  index += stride;
+  //}
+  
+
   //__syncthreads();
   //if(index == stride) {
   //  int sum = 0;
@@ -109,7 +117,7 @@ __global__ void getCDF(int *input, float *output, int total) {
   
   // Write to output
   if(index < len)
-    output[index] = array1[index] / total;
+    output[index] = src[index] / total;
   
   //__syncthreads();
   //if(index == 0)
