@@ -27,6 +27,8 @@ __global__ void scan(float *input, float *output, int len, float *flag, volatile
   int tid = threadIdx.x;
   
   // Why I want to use this approach rather than just use blockIdx.x?
+  // It seems the reason is that I want it to be shared by entire block cuz it is declared above as __shared__
+  // Alright, it might be able to save some registers, but the latency increses instead. I prefer just use blockIdx.x instead.
   // Dynamically get blockIdx.x
   if(tid == 0)
     bid = atomicAdd(&blockCounter, 1);
