@@ -26,6 +26,7 @@ __global__ void scan(float *input, float *output, int len, float *flag, volatile
   __shared__ float preBlockSum;
   int tid = threadIdx.x;
   
+  // Why I want to use this approach rather than just use blockIdx.x?
   // Dynamically get blockIdx.x
   if(tid == 0)
     bid = atomicAdd(&blockCounter, 1);
@@ -93,7 +94,7 @@ int main(int argc, char **argv) {
   float *deviceInput;
   float *deviceOutput;
   int numElements; // number of elements in the list  
-  float *flag;
+  float *flag;  // Why I want to use volatile for preSum, but not flag?
   volatile float *preSum;
 
   args = wbArg_read(argc, argv);
